@@ -30,7 +30,14 @@ jobs:
         run: |
           docker build -t nodejs-backend:latest .
           docker images | grep nodejs-backend
-
+      - name: Verify Docker username presence
+        run: |
+          if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then
+            echo "❌ DOCKER_USERNAME is EMPTY"
+            exit 1
+          else
+            echo "✅ DOCKER_USERNAME is SET"
+          fi
       # 5️⃣ Tag Docker image
       - name: Tag Docker image
         run: docker tag nodejs-backend:latest ${{ secrets.DOCKER_USERNAME }}/nodejs-backend:latest
