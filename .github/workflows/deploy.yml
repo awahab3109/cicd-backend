@@ -40,11 +40,13 @@ jobs:
           fi
       # 5️⃣ Tag Docker image
       - name: Tag Docker image
-        run: docker tag nodejs-backend:latest ${{ secrets.DOCKER_USERNAME }}/nodejs-backend:latest
+        run: |
+          echo ${{ vars.DOCKER_USERNAME }}
+          docker tag nodejs-backend:latest ${{ vars.DOCKER_USERNAME }}/nodejs-backend:latest
 
       # 6️⃣ Push Docker image
       - name: Push Docker image
-        run: docker push awahab3109/nodejs-backend:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/nodejs-backend:latest
 
       # 7️⃣ Deploy on EC2
       - name: Deploy container on EC2
