@@ -76,11 +76,13 @@ jobs:
 
             echo "Running new container"
             sudo docker run -d \
-              --name nodejs-backend \
-              --restart unless-stopped \
-              -p 8000:3000 \
-              -e PORT=3000 \
-              -e MONGODB_URI="${{ secrets.MONGODB_URI }}" \
-              ${{ secrets.DOCKER_USERNAME }}/nodejs-backend:latest
+            --name nodejs-backend \
+            --restart unless-stopped \
+            --network app-network \
+            -p 8000:3000 \
+            -e PORT=3000 \
+            -e MONGODB_URI="${{ secrets.MONGODB_URI }}" \
+            -v backend-data:/app/data \
+            ${{ secrets.DOCKER_USERNAME }}/nodejs-backend:latest
 
             echo "✅ Backend deployment completed successfully"
